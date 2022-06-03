@@ -30,7 +30,16 @@ class Lexer:
             elif self.current_char in BRACKETS:
                 tokens.append(Token(BRACKET_TYPE, self.current_char))
                 self.next_token()
-                
+            elif self.current_char in LOWERCASE_LETTERS or self.current_char in UPPERCASE_LETTERS:
+                word = self.create_word()
+                if word in BOOLEANS:
+                    tokens.append(Token(BOOLEAN_TYPE, word))
+                else:
+                    tokens.append(Token(VARIABLE_TYPE, word))
+            elif self.current_char == '"':
+                self.next_token()
+                tokens.append(Token(STRING_TYPE, self.create_string()))
+                self.next_token()
         return tokens
 
     def create_num(self):
@@ -42,3 +51,23 @@ class Lexer:
             self.next_token()
         
         return num
+
+    def create_word(self):
+        word = ""
+        while self.current_char in LOWERCASE_LETTERS or self.current_char in UPPERCASE_LETTERS:
+            if self.current_char == None:
+                break 
+
+            word += self.current_char
+            self.next_token()
+
+        return word
+
+    def create_string(self):
+        _string = ""
+        while self.current_char != '"':
+            if self.current_char == None:
+                break 
+            _string += self.current_char
+            self.next_token()
+        return _string
