@@ -1,3 +1,4 @@
+from ast import Raise
 from Token import Token
 from Types import *
 
@@ -40,6 +41,10 @@ class Lexer:
                 self.next_token()
                 tokens.append(Token(STRING_TYPE, self.create_string()))
                 self.next_token()
+            elif self.current_char == "\n":
+                self.next_token()
+            else:
+                Raise("There was an exception")
         return tokens
 
     def create_num(self):
