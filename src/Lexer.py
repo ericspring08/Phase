@@ -35,6 +35,8 @@ class Lexer:
                 word = self.create_word()
                 if word in BOOLEANS:
                     tokens.append(Token(BOOLEAN_TYPE, word))
+                elif word == "func":
+                    tokens.append(Token(FUNCTION_TYPE, word))
                 else:
                     tokens.append(Token(VARIABLE_TYPE, word))
             elif self.current_char == '"':
